@@ -1,4 +1,3 @@
 mantisbase
-mantis.db-shm
-mantis.db-wal
 mantis_logs*
+mantis.db-*
