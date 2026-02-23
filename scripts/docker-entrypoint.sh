@@ -1,7 +1,7 @@
 #!/bin/sh
-# Used by docker-compose: copy default DB into /mb/data, run mantisbase on port 80,
-# then exit after 30 minutes so the container restarts (restart: always) and data resets.
-# DB source: host mount /db-default if present and non-empty, else image /mb/data-default.
+# Copy default DB into /mb/data, run mantisbase on port 80, then exit after 30 minutes
+# so the container restarts and data resets. DB source: host mount /db-default if
+# present and non-empty, else image /mb/data-default.
 
 set -e
 mkdir -p /mb/data

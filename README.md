@@ -9,9 +9,6 @@ The dashboard lives in the `mb` sub‑directory and is built as a Next.js applic
 A more complete description of the dashboard, its features and development
 workflow can be found in `mb/README.md`.
 
-> ⚠️ The `docker-compose.yaml` file is currently empty – you can either fill it
-> yourself or run the container directly with `docker` commands as shown below.
-
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -22,32 +19,31 @@ workflow can be found in `mb/README.md`.
 
 ### Building the image
 
-The simple `Dockerfile` in the root directory uses the `mantisbase:latest` base
-image and copies the pre‑built dashboard files into `/mb` inside the container.
+The `Dockerfile` builds the admin UI, copies it and a default DB into the
+mantisbase image, and sets the entrypoint so the container is ready to run
+without docker-compose.
 
 ```bash
-# build the demo image from this repository
 docker build -t mantisbase-demo .
 ```
 
 ### Running the service
 
-You can start a container from the image and expose the default MantisBase port
-(7070) to your host:
+The app listens on port **80** inside the container. Map it to your host (e.g. 7088):
 
 ```bash
-docker run --rm -p 7070:7070 mantisbase-demo
+docker run -d --restart always -p 7088:80 mantisbase-demo
 ```
 
-Once the server is running you can navigate to `http://localhost:7070/` to hit the
-API and to `http://localhost:7070/mb/` to access the admin dashboard.
+Then open `http://localhost:7088/` for the API and `http://localhost:7088/mb/` for the admin dashboard.
 
-If you prefer to use `docker-compose`, add the appropriate service definition to
-`docker-compose.yaml` and execute:
+**Optional:** To use a host-backed database instead of the in-image default, mount your data directory read-only as `/db-default`:
 
 ```bash
-docker-compose up --build
+docker run -d --restart always -p 7088:80 -v "$(pwd)/db/data:/db-default:ro" mantisbase-demo
 ```
+
+The entrypoint resets and restarts the server every 30 minutes; with `--restart always`, the container will come back and reload data from `/db-default` or the image default.
 
 ## Development
 

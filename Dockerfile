@@ -21,3 +21,7 @@ ENV NODE_ENV=production
 
 COPY --from=ui-builder /app/out/ ./public/
 COPY db/data ./data-default/
+COPY scripts/docker-entrypoint.sh /entrypoint.sh
+
+EXPOSE 80
+ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
