@@ -1,0 +1,12 @@
+services:
+  mantisbase:
+    build: .
+    image: mantisbase-demo
+    restart: always
+    ports:
+      - "7088:80"
+    volumes:
+      # Optional: override default DB with host ./db (else image /mb/data-default is used)
+      - ./db/data:/db-default:ro
+      - ./scripts/docker-entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: ["/bin/sh", "/entrypoint.sh"]

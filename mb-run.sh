@@ -8,7 +8,6 @@ cd "$SCRIPT_DIR/mb"
 
 export NEXT_PUBLIC_BASE_PATH="${NEXT_PUBLIC_BASE_PATH:-}"
 export NEXT_PUBLIC_MB_IS_DEMO_MODE="${NEXT_PUBLIC_MB_IS_DEMO_MODE:-true}"
-# export NODE_ENV="${NODE_ENV:-development}"
 
 npm install
 npm run dev
