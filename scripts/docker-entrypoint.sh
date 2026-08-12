@@ -20,7 +20,7 @@ else
   mkdir -p /mb/data
 fi
 
-/mb/mantisbase serve -p 80 &
+/mb/mantisbase serve -port 80 &
 pid=$!
 sleep 1800
 kill $pid 2>/dev/null || true
