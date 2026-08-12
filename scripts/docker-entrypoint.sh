@@ -4,14 +4,23 @@
 # present and non-empty, else image /mb/data-default.
 
 set -e
-mkdir -p /mb/data
+
+restore_data() {
+  src=$1
+  rm -rf /mb/data
+  mkdir -p /mb/data
+  cp -a "$src/." /mb/data/
+}
+
 if [ -d /db-default ] && [ -n "$(ls -A /db-default 2>/dev/null)" ]; then
-  cp -r /db-default/. /mb/data/
+  restore_data /db-default
 elif [ -d /mb/data-default ]; then
-  cp -r /mb/data-default/. /mb/data/
+  restore_data /mb/data-default
+else
+  mkdir -p /mb/data
 fi
 
-/mb/mantisbase --dev serve -p 80 &
+/mb/mantisbase serve -p 80 &
 pid=$!
 sleep 1800
 kill $pid 2>/dev/null || true
