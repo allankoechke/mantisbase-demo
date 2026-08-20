@@ -12,7 +12,7 @@ RUN rm -rf /app/out
 RUN npm run build
 
 # Stage 2: mantisbase image + built UI in /mb/public + default DB in /mb/data-default
-FROM allankoech/mantisbase:latest
+FROM allankoech/mantisbase:beta
 WORKDIR /mb
 
 ENV NEXT_PUBLIC_BASE_PATH=""
@@ -22,6 +22,11 @@ ENV NODE_ENV=production
 COPY --from=ui-builder /app/out/ ./public/
 COPY db/data ./data-default/
 COPY scripts/docker-entrypoint.sh /entrypoint.sh
+
+# Inject analytics script
+COPY inject-analytics.sh /inject-analytics.sh
+RUN chmod +x /inject-analytics.sh
+RUN /inject-analytics.sh /mb/public
 
 EXPOSE 80
 ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
