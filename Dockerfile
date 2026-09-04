@@ -17,7 +17,7 @@ RUN rm -rf /app/out
 RUN npm run build
 
 # Stage 2: mantisbase image + built UI in /mb/public + default DB in /mb/data-default
-FROM allankoech/mantisbase:beta
+FROM allankoech/mantisbase:latest
 WORKDIR /mb
 
 COPY --from=ui-builder /app/out/ ./public/
